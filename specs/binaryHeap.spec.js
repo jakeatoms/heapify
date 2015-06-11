@@ -13,11 +13,20 @@ describe('binaryHeap', function () {
         this.heap.bubbleUp.restore && this.heap.bubbleUp.restore();
     })
 
-    it('adding first element put element in first position', function () {
+    it('adding first item puts item in first position', function () {
         var test = 1;
         this.heap.push(test);
 
         assert.equal(this.heap.collection[0], test);
+    });
+
+    it('adding first item does not call bubbleUp', function () {
+        sinon.spy(this.heap, 'bubbleUp');
+
+        var test = 1;
+        this.heap.push(test);
+
+        assert.isTrue(this.heap.bubbleUp.notCalled);
     });
 
     it('adding item calls bubbleUp function', function () {
@@ -93,22 +102,11 @@ describe('binaryHeap', function () {
             assert.equal(result.right, 6);
         });
 
-        it('returns 1 when n is 4', function parentNode() {
-            var result = this.heap.parentIndex(4);
+        it('returns 9 & 10 when n is 4', function parentNode() {
+            var result = this.heap.childIndex(4);
 
-            assert.equal(result, 1);
-        });
-
-        it('returns 2 when n is 5', function parentNode() {
-            var result = this.heap.parentIndex(5);
-
-            assert.equal(result, 2);
-        });
-
-        it('returns 3 when n is 8', function parentNode() {
-            var result = this.heap.parentIndex(8);
-
-            assert.equal(result, 3);
+            assert.equal(result.left, 9);
+            assert.equal(result.right, 10);
         });
     })
 
