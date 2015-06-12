@@ -1,10 +1,9 @@
 var binaryHeap = require('../src/binaryHeap'),
-  sinon = require('sinon');
-var chai = require('chai');
-var assert = chai.assert;
+  sinon = require('sinon'),
+  chai = require('chai'),
+  assert = chai.assert;
 
 describe('binaryHeap', function () {
-  'use strict';
 
   beforeEach(function setup() {
     this.heap = binaryHeap();
@@ -12,7 +11,15 @@ describe('binaryHeap', function () {
 
   afterEach(function tearDown() {
     this.heap.bubbleUp.restore && this.heap.bubbleUp.restore();
-  })
+    this.heap.trickleDown.restore && this.heap.trickleDown.restore();
+  });
+
+  it('size returns length of underlying array', function () {
+    this.heap.collection.push(1);
+    this.heap.collection.push(2);
+
+    assert.equal(this.heap.size(), 2);
+  });
 
   it('adding first item puts item in first position', function () {
     var test = 1;
@@ -180,6 +187,35 @@ describe('binaryHeap', function () {
       assert.equal(this.heap.collection[5], 8);
       assert.equal(this.heap.collection[6], 9);
       assert.equal(this.heap.collection[7], 6);
+    });
+  });
+
+  describe('shift', function () {
+
+    beforeEach(function () {
+      this.heap.push(1);
+      this.heap.push(2);
+      this.heap.push(3);
+    });
+
+    it('returns the first value in the heap', function () {
+      var result = this.heap.shift();
+
+      assert.equal(result, 1);
+    });
+
+    it('removes the first value from the heap', function () {
+      var result = this.heap.shift();
+
+      for(var i = 0, l = this.heap.size(); i < l; i++){
+        assert.notEqual(this.heap.collection[i], result);
+      }
+    });
+
+    it('move last item to first position', function () {
+      this.heap.shift();
+
+      assert.equal(this.heap.collection[0], 3);
     });
   });
 });
