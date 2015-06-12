@@ -1,4 +1,4 @@
-module.exports = function () {
+module.exports = function (/*option comparator will be passed here*/) {
   return {
     collection: [],
     parentIndex: function (n) {

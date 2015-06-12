@@ -4,8 +4,9 @@ var chai = require('chai');
 var assert = chai.assert;
 
 describe('binaryHeap', function () {
+  'use strict';
 
-  beforeEach(function runFirst() {
+  beforeEach(function setup() {
     this.heap = binaryHeap();
   });
 
@@ -47,7 +48,7 @@ describe('binaryHeap', function () {
     assert.isTrue(this.heap.bubbleUp.calledWith(1));
   });
 
-  describe('parentIndex calculation', function parentIndexDescribe() {
+  describe('parentIndex calculation', function () {
     it('returns 0 when n is 2', function parentNode() {
       var result = this.heap.parentIndex(2);
 
@@ -79,7 +80,7 @@ describe('binaryHeap', function () {
     });
   });
 
-  describe('childIndex calculation', function childIndexDescribe() {
+  describe('childIndex calculation', function () {
     it('returns 1 and 2 when n is 0', function parentNode() {
       var result = this.heap.childIndex(0);
 
@@ -102,7 +103,7 @@ describe('binaryHeap', function () {
     });
   });
 
-  describe('bubbleUp', function bubbleUpSpec() {
+  describe('bubbleUp', function () {
     it('does nothing when parent value is less', function () {
       this.heap.collection.push(3);
       this.heap.collection.push(4);
@@ -127,6 +128,29 @@ describe('binaryHeap', function () {
       assert.equal(this.heap.collection[0], 1, 'child was not swapped with parent');
       assert.equal(this.heap.collection[1], 5, 'wrong index was calculated somewhere');
       assert.equal(this.heap.collection[2], 3, 'parent was not swapped with child');
+    });
+
+    it('swaps new negative value with parents until it reaches top', function () {
+      this.heap.collection.push(1);
+      //children of index 0
+      this.heap.collection.push(5);
+      this.heap.collection.push(4);
+
+      //children of index 1
+      this.heap.collection.push(6);
+      this.heap.collection.push(7);
+
+      //children of index 2
+      this.heap.collection.push(8);
+      this.heap.collection.push(9);
+
+      //child of index 3
+      this.heap.collection.push(-3);
+
+      this.heap.bubbleUp(this.heap.collection.length - 1);
+
+      assert.equal(this.heap.collection[0], -3);
+      assert.equal(this.heap.collection[1], 1);
     });
 
     it('swaps with parents until parent is smaller', function () {
@@ -158,4 +182,4 @@ describe('binaryHeap', function () {
       assert.equal(this.heap.collection[7], 6);
     });
   });
-})
+});
