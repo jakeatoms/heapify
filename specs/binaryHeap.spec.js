@@ -1,4 +1,4 @@
-var binaryHeap = require('../binaryHeap'),
+var binaryHeap = require('../src/binaryHeap'),
     sinon = require('sinon');
 var chai = require('chai');
 var assert = chai.assert;
@@ -47,14 +47,6 @@ describe('binaryHeap', function () {
         assert.isTrue(this.heap.bubbleUp.calledWith(1));
     });
 
-    it('adding smaller item puts item at beginning of collection', function pushSmaller() {
-        this.heap.collection.push(6);
-        var test = 1;
-        this.heap.push(test);
-
-        //assert.equal(this.heap.collection[0], test);
-    });
-
     describe('parentIndex calculation', function parentIndexDescribe() {
         it('returns 0 when n is 2', function parentNode() {
             var result = this.heap.parentIndex(2);
@@ -85,7 +77,7 @@ describe('binaryHeap', function () {
 
             assert.equal(result, 3);
         });
-    })
+    });
 
     describe('childIndex calculation', function childIndexDescribe() {
         it('returns 1 and 2 when n is 0', function parentNode() {
@@ -108,6 +100,10 @@ describe('binaryHeap', function () {
             assert.equal(result.left, 9);
             assert.equal(result.right, 10);
         });
-    })
+    });
 
+
+    describe('bubbleUp', function bubbleUpSpec(){
+
+    });
 })
