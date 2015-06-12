@@ -31,6 +31,10 @@ module.exports = function(){
 
             this.collection[parentIndex] = me;
             this.collection[index] = parent;
+
+            if(parentIndex > 0){
+                this.bubbleUp(parentIndex);
+            }
         }
     }
 };
