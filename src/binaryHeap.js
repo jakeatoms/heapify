@@ -21,7 +21,16 @@ module.exports = function(){
             this.bubbleUp(index);
         },
         bubbleUp: function(index){
+            var me = this.collection[index],
+                parentIndex = this.parentIndex(index),
+                parent = this.collection[parentIndex];
 
+            if(me > parent){
+                return;
+            }
+
+            this.collection[parentIndex] = me;
+            this.collection[index] = parent;
         }
     }
 };

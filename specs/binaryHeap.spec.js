@@ -104,6 +104,30 @@ describe('binaryHeap', function () {
 
 
     describe('bubbleUp', function bubbleUpSpec(){
+        it('does nothing when parent value is less', function(){
+            this.heap.collection.push(3);
+            this.heap.collection.push(4);
 
+            this.heap.collection.push(8);
+
+            this.heap.bubbleUp(2);
+
+            assert.equal(this.heap.collection[0], 3);
+            assert.equal(this.heap.collection[1], 4);
+            assert.equal(this.heap.collection[2], 8);
+        });
+
+        it('swaps with parent when parent is greater', function(){
+            this.heap.collection.push(3);
+            this.heap.collection.push(5);
+
+            this.heap.collection.push(1);
+
+            this.heap.bubbleUp(2);
+
+            assert.equal(this.heap.collection[0], 1, 'child was not swapped with parent');
+            assert.equal(this.heap.collection[1], 5, 'wrong index was calculated somewhere');
+            assert.equal(this.heap.collection[2], 3, 'parent was not swapped with child');
+        });
     });
 })
