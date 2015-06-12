@@ -1,7 +1,7 @@
 var binaryHeap = require('../src/binaryHeap'),
-  sinon = require('sinon');
-var chai = require('chai');
-var assert = chai.assert;
+    sinon = require('sinon'),
+    chai = require('chai'),
+    assert = chai.assert;
 
 describe('binaryHeap', function () {
   'use strict';
@@ -12,7 +12,7 @@ describe('binaryHeap', function () {
 
   afterEach(function tearDown() {
     this.heap.bubbleUp.restore && this.heap.bubbleUp.restore();
-  })
+  });
 
   it('adding first item puts item in first position', function () {
     var test = 1;

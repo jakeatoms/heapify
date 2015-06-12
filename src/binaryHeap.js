@@ -1,4 +1,6 @@
 module.exports = function (/*option comparator will be passed here*/) {
+  'use strict';
+
   return {
     collection: [],
     parentIndex: function (n) {
