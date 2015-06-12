@@ -3,6 +3,9 @@ module.exports = function (/*option comparator will be passed here*/) {
 
   return {
     collection: [],
+    size: function size() {
+      return this.collection.length;
+    },
     parentIndex: function (n) {
       return Math.floor((n + 1) / 2) - 1;
     },
@@ -12,15 +15,24 @@ module.exports = function (/*option comparator will be passed here*/) {
         right: (n + 1) * 2
       };
     },
-    push: function (item) {
+    push: function push(item) {
       this.collection.push(item);
-      var index = this.collection.length - 1;
+      var index = this.size() - 1;
 
       if (index === 0) {
         return;
       }
 
       this.bubbleUp(index);
+    },
+    shift: function unshift() {
+      var firstItem = this.collection[0];
+
+      var lastItem = this.collection.pop();
+
+      this.collection[0] = lastItem;
+
+      return firstItem;
     },
     bubbleUp: function (index) {
       var me = this.collection[index],
@@ -37,6 +49,9 @@ module.exports = function (/*option comparator will be passed here*/) {
       if (parentIndex > 0) {
         this.bubbleUp(parentIndex);
       }
+    },
+    trickleDown: function (index) {
+
     }
   }
 };
