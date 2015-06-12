@@ -102,7 +102,6 @@ describe('binaryHeap', function () {
         });
     });
 
-
     describe('bubbleUp', function bubbleUpSpec(){
         it('does nothing when parent value is less', function(){
             this.heap.collection.push(3);
@@ -128,6 +127,35 @@ describe('binaryHeap', function () {
             assert.equal(this.heap.collection[0], 1, 'child was not swapped with parent');
             assert.equal(this.heap.collection[1], 5, 'wrong index was calculated somewhere');
             assert.equal(this.heap.collection[2], 3, 'parent was not swapped with child');
+        });
+
+        it('swaps with parents until parent is smaller', function(){
+            this.heap.collection.push(1);
+            //children of index 0
+            this.heap.collection.push(5);
+            this.heap.collection.push(4);
+
+            //children of index 1
+            this.heap.collection.push(6);
+            this.heap.collection.push(7);
+
+            //children of index 2
+            this.heap.collection.push(8);
+            this.heap.collection.push(9);
+
+            //child of index 3
+            this.heap.collection.push(3);
+
+            this.heap.bubbleUp(this.heap.collection.length - 1);
+
+            assert.equal(this.heap.collection[0], 1);
+            assert.equal(this.heap.collection[1], 3);
+            assert.equal(this.heap.collection[2], 4);
+            assert.equal(this.heap.collection[3], 5);
+            assert.equal(this.heap.collection[4], 7);
+            assert.equal(this.heap.collection[5], 8);
+            assert.equal(this.heap.collection[6], 9);
+            assert.equal(this.heap.collection[7], 6);
         });
     });
 })
