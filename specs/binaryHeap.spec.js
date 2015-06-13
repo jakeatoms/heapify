@@ -12,7 +12,7 @@ describe('binaryHeap', function () {
 
   afterEach(function tearDown() {
     this.heap.bubbleUp.restore && this.heap.bubbleUp.restore();
-    this.heap.trickleDown.restore && this.heap.trickleDown.restore();
+    this.heap.siftDown.restore && this.heap.siftDown.restore();
   });
 
   it('size returns length of underlying array', function () {
@@ -200,7 +200,7 @@ describe('binaryHeap', function () {
     });
 
     afterEach(function () {
-      this.heap.trickleDown.restore && this.heap.trickleDown.restore();
+      this.heap.siftDown.restore && this.heap.siftDown.restore();
     });
 
     it('returns the first value in the heap', function () {
@@ -217,16 +217,16 @@ describe('binaryHeap', function () {
       }
     });
 
-    it('calls trickleDown with index 0', function () {
-      spy(this.heap, 'trickleDown');
+    it('calls siftDown with index 0', function () {
+      spy(this.heap, 'siftDown');
       this.heap.shift();
 
-      assert.isTrue(this.heap.trickleDown.calledOnce, 'trickleDown not called once');
-      assert.isTrue(this.heap.trickleDown.calledWith(0), 'not called with 0 index');
+      assert.isTrue(this.heap.siftDown.calledOnce, 'siftDown not called once');
+      assert.isTrue(this.heap.siftDown.calledWith(0), 'not called with 0 index');
     });
   });
 
-  describe('trickleDown', function () {
+  describe('siftDown', function () {
     beforeEach(function () {
       this.heap.collection.push(1);
     });
@@ -234,19 +234,19 @@ describe('binaryHeap', function () {
     afterEach(function () {
       this.heap.childIndex.restore && this.heap.childIndex.restore();
       this.heap.getIndexOfSmallest.restore && this.heap.getIndexOfSmallest.restore();
-      this.heap.trickleDown.restore && this.heap.trickleDown.restore();
+      this.heap.siftDown.restore && this.heap.siftDown.restore();
     });
 
     it('calls childIndex', function () {
       spy(this.heap, 'childIndex');
-      this.heap.trickleDown(0);
+      this.heap.siftDown(0);
 
       assert.isTrue(this.heap.childIndex.calledOnce, 'childIndex was not called');
     });
 
     it('calls childIndex with given index', function () {
       spy(this.heap, 'childIndex');
-      this.heap.trickleDown(0);
+      this.heap.siftDown(0);
 
       assert.isTrue(this.heap.childIndex.calledWith(0), 'childIndex was not called with given index');
     });
@@ -254,7 +254,7 @@ describe('binaryHeap', function () {
     it('calls getIndexOfSmallest', function () {
       spy(this.heap, 'getIndexOfSmallest');
 
-      this.heap.trickleDown(0);
+      this.heap.siftDown(0);
 
       assert.isTrue(this.heap.getIndexOfSmallest.calledOnce, 'getIndexOfSmallest was not called');
     });
@@ -262,7 +262,7 @@ describe('binaryHeap', function () {
     it('calls getIndexOfSmallest with given index and child indexes', function () {
       spy(this.heap, 'getIndexOfSmallest');
 
-      this.heap.trickleDown(0);
+      this.heap.siftDown(0);
 
       assert.isTrue(this.heap.getIndexOfSmallest.calledWith(0, 1, 2), 'getIndexOfSmallest was not called');
     });
@@ -275,7 +275,7 @@ describe('binaryHeap', function () {
 
       //spy(this.heap.getIndexOfSmallest).returns(1);
 
-      this.heap.trickleDown(0);
+      this.heap.siftDown(0);
 
       assert.equal(this.heap.collection[0], 1, 'smaller value was not moved up');
       assert.equal(this.heap.collection[1], 3, 'larger value was not moved down');
@@ -292,11 +292,11 @@ describe('binaryHeap', function () {
       this.heap.collection.push(6);
       this.heap.collection.push(7);
 
-      spy(this.heap, 'trickleDown');
+      spy(this.heap, 'siftDown');
 
-      this.heap.trickleDown(0);
+      this.heap.siftDown(0);
 
-      assert.equal(this.heap.trickleDown.callCount, 3);
+      assert.equal(this.heap.siftDown.callCount, 3);
       assert.equal(this.heap.collection[7], 8, 'largest value was not moved down');
     });
 
@@ -311,11 +311,11 @@ describe('binaryHeap', function () {
       this.heap.collection.push(6);
       this.heap.collection.push(8);
 
-      spy(this.heap, 'trickleDown');
+      spy(this.heap, 'siftDown');
 
-      this.heap.trickleDown(0);
+      this.heap.siftDown(0);
 
-      assert.equal(this.heap.trickleDown.callCount, 3);
+      assert.equal(this.heap.siftDown.callCount, 3);
       assert.equal(this.heap.collection[3], 7, 'largest value was not moved down');
     });
   });

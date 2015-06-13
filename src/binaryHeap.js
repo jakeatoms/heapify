@@ -60,7 +60,7 @@ module.exports = function (/*option comparator will be passed here*/) {
 
       this.collection[0] = lastItem;
 
-      this.trickleDown(0);
+      this.siftDown(0);
 
       return firstItem;
     },
@@ -80,7 +80,7 @@ module.exports = function (/*option comparator will be passed here*/) {
         this.bubbleUp(parentIndex);
       }
     },
-    trickleDown: function (index) {
+    siftDown: function (index) {
       // get children indexes
       var children = this.childIndex(index);
 
@@ -97,7 +97,7 @@ module.exports = function (/*option comparator will be passed here*/) {
       this.collection[index] = child;
 
       if(this.hasChildren(childIndex)){
-        this.trickleDown(childIndex);
+        this.siftDown(childIndex);
       }
 
       return;
