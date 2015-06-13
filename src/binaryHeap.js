@@ -15,6 +15,10 @@ module.exports = function (/*option comparator will be passed here*/) {
         right: (n + 1) * 2
       };
     },
+    hasChildren: function (index){
+      var children = this.childIndex(index);
+      return this.getItem(children.left) != undefined || this.getItem(children.right) != undefined;
+    },
     getItem: function (index) {
       if (index > this.size() - 1) {
         return;
@@ -80,9 +84,23 @@ module.exports = function (/*option comparator will be passed here*/) {
       // get children indexes
       var children = this.childIndex(index);
 
-      //if they don't exist in array, exit
+      var childIndex = this.getIndexOfSmallest(index, children.left, children.right);
 
-      //
+      if (index === childIndex) {
+        return;
+      }
+
+      var child = this.collection[childIndex];
+      var me = this.collection[index];
+
+      this.collection[childIndex] = me;
+      this.collection[index] = child;
+
+      if(this.hasChildren(childIndex)){
+        this.trickleDown(childIndex);
+      }
+
+      return;
     }
   }
 };
