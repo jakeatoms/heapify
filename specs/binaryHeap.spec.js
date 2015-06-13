@@ -1,7 +1,8 @@
 var binaryHeap = require('../src/binaryHeap'),
   sinon = require('sinon'),
   chai = require('chai'),
-  assert = chai.assert;
+  assert = chai.assert,
+  spy = sinon.spy;
 
 describe('binaryHeap', function () {
 
@@ -207,7 +208,7 @@ describe('binaryHeap', function () {
     it('removes the first value from the heap', function () {
       var result = this.heap.shift();
 
-      for(var i = 0, l = this.heap.size(); i < l; i++){
+      for (var i = 0, l = this.heap.size(); i < l; i++) {
         assert.notEqual(this.heap.collection[i], result);
       }
     });
@@ -216,6 +217,38 @@ describe('binaryHeap', function () {
       this.heap.shift();
 
       assert.equal(this.heap.collection[0], 3);
+    });
+
+    it('calls trickleDown with index 0', function () {
+      spy(this.heap, 'trickleDown');
+      this.heap.shift();
+
+      assert.isTrue(this.heap.trickleDown.calledOnce);
+      assert.isTrue(this.heap.trickleDown.calledWith(0), 'not called with 0 index');
+    });
+  });
+
+  describe('trickleDown', function () {
+    beforeEach(function () {
+      this.heap.collection.push(1);
+    });
+
+    afterEach(function () {
+      this.heap.childIndex.restore && this.heap.childIndex.restore();
+    });
+
+    it('calls childIndex', function () {
+      spy(this.heap, 'childIndex');
+      this.heap.trickleDown(0);
+
+      assert.isTrue(this.heap.childIndex.calledOnce, 'childIndex was not called');
+    });
+
+    it('calls childIndex with given index', function () {
+      spy(this.heap, 'childIndex');
+      this.heap.trickleDown(0);
+
+      assert.isTrue(this.heap.childIndex.calledWith(0), 'childIndex was not called with given index');
     });
   });
 });

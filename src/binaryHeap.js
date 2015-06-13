@@ -25,12 +25,14 @@ module.exports = function (/*option comparator will be passed here*/) {
 
       this.bubbleUp(index);
     },
-    shift: function unshift() {
+    shift: function shift() {
       var firstItem = this.collection[0];
 
       var lastItem = this.collection.pop();
 
       this.collection[0] = lastItem;
+
+      this.trickleDown(0);
 
       return firstItem;
     },
@@ -51,7 +53,12 @@ module.exports = function (/*option comparator will be passed here*/) {
       }
     },
     trickleDown: function (index) {
+      // get children indexes
+      var children = this.childIndex(index);
 
+      //if they don't exist in array, exit
+
+      //
     }
   }
 };
