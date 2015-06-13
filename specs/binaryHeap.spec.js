@@ -199,6 +199,10 @@ describe('binaryHeap', function () {
       this.heap.push(3);
     });
 
+    afterEach(function () {
+      this.heap.trickleDown.restore && this.heap.trickleDown.restore();
+    });
+
     it('returns the first value in the heap', function () {
       var result = this.heap.shift();
 
@@ -213,17 +217,11 @@ describe('binaryHeap', function () {
       }
     });
 
-    it('move last item to first position', function () {
-      this.heap.shift();
-
-      assert.equal(this.heap.collection[0], 3);
-    });
-
     it('calls trickleDown with index 0', function () {
       spy(this.heap, 'trickleDown');
       this.heap.shift();
 
-      assert.isTrue(this.heap.trickleDown.calledOnce);
+      assert.isTrue(this.heap.trickleDown.calledOnce, 'trickleDown not called once');
       assert.isTrue(this.heap.trickleDown.calledWith(0), 'not called with 0 index');
     });
   });
@@ -235,6 +233,8 @@ describe('binaryHeap', function () {
 
     afterEach(function () {
       this.heap.childIndex.restore && this.heap.childIndex.restore();
+      this.heap.getIndexOfSmallest.restore && this.heap.getIndexOfSmallest.restore();
+      this.heap.trickleDown.restore && this.heap.trickleDown.restore();
     });
 
     it('calls childIndex', function () {
@@ -250,10 +250,78 @@ describe('binaryHeap', function () {
 
       assert.isTrue(this.heap.childIndex.calledWith(0), 'childIndex was not called with given index');
     });
+
+    it('calls getIndexOfSmallest', function () {
+      spy(this.heap, 'getIndexOfSmallest');
+
+      this.heap.trickleDown(0);
+
+      assert.isTrue(this.heap.getIndexOfSmallest.calledOnce, 'getIndexOfSmallest was not called');
+    });
+
+    it('calls getIndexOfSmallest with given index and child indexes', function () {
+      spy(this.heap, 'getIndexOfSmallest');
+
+      this.heap.trickleDown(0);
+
+      assert.isTrue(this.heap.getIndexOfSmallest.calledWith(0, 1, 2), 'getIndexOfSmallest was not called');
+    });
+
+    it('swaps subject item with smaller value', function () {
+      this.heap.collection = [];
+      this.heap.collection.push(3);
+      this.heap.collection.push(1);
+      this.heap.collection.push(2);
+
+      //spy(this.heap.getIndexOfSmallest).returns(1);
+
+      this.heap.trickleDown(0);
+
+      assert.equal(this.heap.collection[0], 1, 'smaller value was not moved up');
+      assert.equal(this.heap.collection[1], 3, 'larger value was not moved down');
+    });
+
+    it('swaps subject item with smaller value until no children remain', function () {
+      this.heap.collection = [];
+      this.heap.collection.push(8);
+      this.heap.collection.push(1);
+      this.heap.collection.push(2);
+      this.heap.collection.push(3);
+      this.heap.collection.push(4);
+      this.heap.collection.push(5);
+      this.heap.collection.push(6);
+      this.heap.collection.push(7);
+
+      spy(this.heap, 'trickleDown');
+
+      this.heap.trickleDown(0);
+
+      assert.equal(this.heap.trickleDown.callCount, 3);
+      assert.equal(this.heap.collection[7], 8, 'largest value was not moved down');
+    });
+
+    it('swaps subject item with smaller value until children are larger', function () {
+      this.heap.collection = [];
+      this.heap.collection.push(7);
+      this.heap.collection.push(1);
+      this.heap.collection.push(2);
+      this.heap.collection.push(3);
+      this.heap.collection.push(4);
+      this.heap.collection.push(5);
+      this.heap.collection.push(6);
+      this.heap.collection.push(8);
+
+      spy(this.heap, 'trickleDown');
+
+      this.heap.trickleDown(0);
+
+      assert.equal(this.heap.trickleDown.callCount, 3);
+      assert.equal(this.heap.collection[3], 7, 'largest value was not moved down');
+    });
   });
-  
+
   describe('getIndexOfSmallest', function () {
-    
+
     it('returns subjectIndex when other indexes are out of bounds', function () {
       this.heap.collection.push(1);
       this.heap.collection.push(2);
