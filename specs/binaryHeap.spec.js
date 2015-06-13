@@ -251,4 +251,63 @@ describe('binaryHeap', function () {
       assert.isTrue(this.heap.childIndex.calledWith(0), 'childIndex was not called with given index');
     });
   });
+  
+  describe('getIndexOfSmallest', function () {
+    
+    it('returns subjectIndex when other indexes are out of bounds', function () {
+      this.heap.collection.push(1);
+      this.heap.collection.push(2);
+
+      var result = this.heap.getIndexOfSmallest(1, 2, 3);
+
+      assert.equal(result, 1, 'did not return subjectIndex');
+    });
+
+    it('returns subjectIndex when leftValue is larger and rightIndex is out of bounds', function () {
+      this.heap.collection.push(1);
+      this.heap.collection.push(2);
+
+      var result = this.heap.getIndexOfSmallest(0, 1, 2);
+
+      assert.equal(result, 0, 'did not return subjectIndex');
+    });
+
+    it('returns subjectIndex when the value is the smallest', function () {
+      this.heap.collection.push(1);
+      this.heap.collection.push(2);
+
+      var result = this.heap.getIndexOfSmallest(0, 1, 2);
+
+      assert.equal(result, 0, 'did not return subjectIndex');
+    });
+
+    it('returns leftIndex when the value is the smallest', function () {
+      this.heap.collection.push(2);
+      this.heap.collection.push(1);
+      this.heap.collection.push(3);
+
+      var result = this.heap.getIndexOfSmallest(0, 1, 2);
+
+      assert.equal(result, 1, 'did not return leftIndex');
+    });
+
+    it('returns rightIndex when the value is the smallest', function () {
+      this.heap.collection.push(2);
+      this.heap.collection.push(3);
+      this.heap.collection.push(1);
+
+      var result = this.heap.getIndexOfSmallest(0, 1, 2);
+
+      assert.equal(result, 2, 'did not return rightIndex');
+    });
+
+    it('returns leftIndex when the value is the smallest and rightIndex is out of bounds', function () {
+      this.heap.collection.push(2);
+      this.heap.collection.push(1);
+
+      var result = this.heap.getIndexOfSmallest(0, 1, 2);
+
+      assert.equal(result, 1, 'did not return leftIndex');
+    });
+  })
 });

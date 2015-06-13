@@ -15,6 +15,30 @@ module.exports = function (/*option comparator will be passed here*/) {
         right: (n + 1) * 2
       };
     },
+    getItem: function (index) {
+      if (index > this.size() - 1) {
+        return;
+      }
+
+      return this.collection[index];
+    },
+    getIndexOfSmallest: function getIndexOfSmallest(subjectIndex, leftIndex, rightIndex) {
+      var subjectValue = this.getItem(subjectIndex),
+        leftValue = this.getItem(leftIndex),
+        rightValue = this.getItem(rightIndex);
+
+      if (leftValue == undefined && rightValue == undefined) {
+        return subjectIndex;
+      }
+
+      var smallestChild = rightValue == undefined || rightValue > leftValue ? leftValue : rightValue;
+
+      if (subjectValue < smallestChild){
+        return subjectIndex;
+      }
+
+      return smallestChild === leftValue ? leftIndex : rightIndex;
+    },
     push: function push(item) {
       this.collection.push(item);
       var index = this.size() - 1;
