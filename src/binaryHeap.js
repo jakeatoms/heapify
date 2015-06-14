@@ -32,11 +32,11 @@ module.exports = function (/*option comparator will be passed here*/) {
 
       var lastItem = this.__collection.pop();
 
-      this.__collection[0] = lastItem;
-
-      if (this.__collection.length <= 1){
+      if (this.size() === 0){
         return firstItem;
       }
+
+      this.__collection[0] = lastItem;
 
       this.__siftDown(0);
 
@@ -44,16 +44,9 @@ module.exports = function (/*option comparator will be passed here*/) {
     },
 
     remove: function remove(item) {
-      var matchedIndex;
-      for(var i = 0, l = this.size(); i < l; i++){
-        var heapItem = this.getItem(i);
-        if(heapItem === item){
-          matchedIndex = i;
-          break;
-        }
-      }
+      var matchedIndex = this.__collection.indexOf(item);
 
-      if(matchedIndex == undefined){
+      if(matchedIndex == -1){
         return;
       }
 
@@ -63,6 +56,7 @@ module.exports = function (/*option comparator will be passed here*/) {
         return;
       }
 
+      this.__collection[matchedIndex] = lastItem;
       this.__heapify(matchedIndex);
       this.__siftDown(matchedIndex);
     },
