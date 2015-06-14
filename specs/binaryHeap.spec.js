@@ -225,15 +225,15 @@ describe('binaryHeap', function () {
       assert.isTrue(this.heap.__siftDown.calledWith(0), 'not called with 0 index');
     });
 
-    it('does not call __siftDown when only 2 items in heap', function(){
+    it('calls __siftDown when only 2 items in heap', function(){
         spy(this.heap, '__siftDown');
         this.heap.__collection = [1, 2];
         this.heap.shift();
 
-        assert.equal(this.heap.__siftDown.callCount, 0);
+        assert.isTrue(this.heap.__siftDown.calledOnce);
     });
 
-    it('does not call __siftDown when only 2 item in heap', function(){
+    it('does not call __siftDown when only 1 item in heap', function(){
       spy(this.heap, '__siftDown');
       this.heap.__collection = [1];
       this.heap.shift();
@@ -425,7 +425,7 @@ describe('binaryHeap', function () {
     it('removes the given item from the heap', function () {
       this.heap.remove(5);
 
-      assert.notEqual(this.heap.__collection[this.heap.__collection.length - 1], 5)
+      assert.equal(this.heap.__collection.indexOf(5), -1)
     });
 
     it('calls dependent functions when given item is found and not the last item in heap', function () {
