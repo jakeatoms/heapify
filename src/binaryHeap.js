@@ -34,9 +34,37 @@ module.exports = function (/*option comparator will be passed here*/) {
 
       this.__collection[0] = lastItem;
 
+      if (this.__collection.length <= 1){
+        return firstItem;
+      }
+
       this.__siftDown(0);
 
       return firstItem;
+    },
+
+    remove: function remove(item) {
+      var matchedIndex;
+      for(var i = 0, l = this.size(); i < l; i++){
+        var heapItem = this.getItem(i);
+        if(heapItem === item){
+          matchedIndex = i;
+          break;
+        }
+      }
+
+      if(matchedIndex == undefined){
+        return;
+      }
+
+      var lastItem = this.__collection.pop();
+
+      if(lastItem === item){
+        return;
+      }
+
+      this.__heapify(matchedIndex);
+      this.__siftDown(matchedIndex);
     },
 
     __heapify: function __heapify(index) {

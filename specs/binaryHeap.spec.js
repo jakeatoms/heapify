@@ -224,6 +224,22 @@ describe('binaryHeap', function () {
       assert.isTrue(this.heap.__siftDown.calledOnce, '__siftDown not called once');
       assert.isTrue(this.heap.__siftDown.calledWith(0), 'not called with 0 index');
     });
+
+    it('does not call __siftDown when only 2 items in heap', function(){
+        spy(this.heap, '__siftDown');
+        this.heap.__collection = [1, 2];
+        this.heap.shift();
+
+        assert.equal(this.heap.__siftDown.callCount, 0);
+    });
+
+    it('does not call __siftDown when only 2 item in heap', function(){
+      spy(this.heap, '__siftDown');
+      this.heap.__collection = [1];
+      this.heap.shift();
+
+      assert.equal(this.heap.__siftDown.callCount, 0);
+    });
   });
 
   describe('__siftDown', function () {
@@ -378,4 +394,52 @@ describe('binaryHeap', function () {
       assert.equal(result, 1, 'did not return leftIndex');
     });
   })
+
+  describe('remove', function () {
+    beforeEach(function () {
+      spy(this.heap, '__siftDown');
+      spy(this.heap, '__heapify');
+
+      this.heap.__collection = [1,2,3,4,5];
+    });
+
+    afterEach(function () {
+      this.heap.__siftDown.restore && this.heap.__siftDown.restore();
+      this.heap.__heapify.restore && this.heap.__heapify.restore();
+    });
+
+    it('does not call dependent functions when given item not in heap', function () {
+      this.heap.remove(10);
+
+      assert.equal(this.heap.__siftDown.callCount, 0);
+      assert.equal(this.heap.__heapify.callCount, 0);
+    });
+
+    it('does not call dependent functions when given item is last in heap', function () {
+      this.heap.remove(5);
+
+      assert.equal(this.heap.__siftDown.callCount, 0);
+      assert.equal(this.heap.__heapify.callCount, 0);
+    });
+
+    it('removes the given item from the heap', function () {
+      this.heap.remove(5);
+
+      assert.notEqual(this.heap.__collection[this.heap.__collection.length - 1], 5)
+    });
+
+    it('calls dependent functions when given item is found and not the last item in heap', function () {
+      this.heap.remove(2);
+
+      assert.isTrue(this.heap.__siftDown.calledOnce);
+      assert.isTrue(this.heap.__heapify.calledOnce);
+    });
+
+    it('calls dependent functions with index of heap item', function () {
+      this.heap.remove(2);
+
+      assert.isTrue(this.heap.__siftDown.calledWith(1));
+      assert.isTrue(this.heap.__heapify.calledWith(1));
+    });
+  });
 });
