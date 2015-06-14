@@ -80,7 +80,7 @@ module.exports = function (/*option comparator will be passed here*/) {
 
     __siftDown: function __siftDown(index) {
       // get children indexes
-      var children = this.__childIndex(index);
+      var children = this.__childIndexes(index);
 
       var childIndex = this.__getIndexOfSmallest(index, children.left, children.right);
 
@@ -105,7 +105,7 @@ module.exports = function (/*option comparator will be passed here*/) {
       return Math.floor((index + 1) / 2) - 1;
     },
 
-    __childIndex: function __childIndex(index) {
+    __childIndexes: function __childIndexes(index) {
       return {
         left: (index + 1) * 2 - 1,
         right: (index + 1) * 2
@@ -113,7 +113,7 @@ module.exports = function (/*option comparator will be passed here*/) {
     },
 
     __hasChildren: function __hasChildren(index){
-      var children = this.__childIndex(index);
+      var children = this.__childIndexes(index);
       return this.getItem(children.left) != undefined || this.getItem(children.right) != undefined;
     },
 

@@ -88,23 +88,23 @@ describe('binaryHeap', function () {
     });
   });
 
-  describe('__childIndex calculation', function () {
+  describe('__childIndexes calculation', function () {
     it('returns 1 and 2 when n is 0', function parentNode() {
-      var result = this.heap.__childIndex(0);
+      var result = this.heap.__childIndexes(0);
 
       assert.equal(result.left, 1);
       assert.equal(result.right, 2);
     });
 
     it('returns 4 & 5 when n is 2', function parentNode() {
-      var result = this.heap.__childIndex(2);
+      var result = this.heap.__childIndexes(2);
 
       assert.equal(result.left, 5);
       assert.equal(result.right, 6);
     });
 
     it('returns 9 & 10 when n is 4', function parentNode() {
-      var result = this.heap.__childIndex(4);
+      var result = this.heap.__childIndexes(4);
 
       assert.equal(result.left, 9);
       assert.equal(result.right, 10);
@@ -248,23 +248,23 @@ describe('binaryHeap', function () {
     });
 
     afterEach(function () {
-      this.heap.__childIndex.restore && this.heap.__childIndex.restore();
+      this.heap.__childIndexes.restore && this.heap.__childIndexes.restore();
       this.heap.__getIndexOfSmallest.restore && this.heap.__getIndexOfSmallest.restore();
       this.heap.__siftDown.restore && this.heap.__siftDown.restore();
     });
 
-    it('calls __childIndex', function () {
-      spy(this.heap, '__childIndex');
+    it('calls __childIndexes', function () {
+      spy(this.heap, '__childIndexes');
       this.heap.__siftDown(0);
 
-      assert.isTrue(this.heap.__childIndex.calledOnce, '__childIndex was not called');
+      assert.isTrue(this.heap.__childIndexes.calledOnce, '__childIndexes was not called');
     });
 
-    it('calls __childIndex with given index', function () {
-      spy(this.heap, '__childIndex');
+    it('calls __childIndexes with given index', function () {
+      spy(this.heap, '__childIndexes');
       this.heap.__siftDown(0);
 
-      assert.isTrue(this.heap.__childIndex.calledWith(0), '__childIndex was not called with given index');
+      assert.isTrue(this.heap.__childIndexes.calledWith(0), '__childIndexes was not called with given index');
     });
 
     it('calls __getIndexOfSmallest', function () {
